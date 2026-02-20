@@ -16,7 +16,7 @@ public final class FabricaFiguras {
 
     private FabricaFiguras() {}
 
-    // Singleton thread-safe 
+    // Singleton 
     public static FabricaFiguras getInstance() {
         if (instance == null) {
             synchronized (FabricaFiguras.class) {
@@ -36,7 +36,7 @@ public final class FabricaFiguras {
 
         if (Double.compare(circuloUnico.getRaio(), raio) != 0) {
             throw new IllegalStateException(
-                    "Já existe um círculo criado com raio=" + circuloUnico.getRaio()
+                    "Já existe um círculo criado com raio = " + circuloUnico.getRaio()
             );
         }
         return circuloUnico;

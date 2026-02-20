@@ -23,7 +23,7 @@ public final class Triangulo implements FiguraGeometrica {
         this.c = c;
     }
 
-    // --- Fábricas (criação por tipo) ---
+    // Fábricas (criação por tipo)
     public static Triangulo equilatero(double lado) {
         return new Triangulo(Tipo.EQUILATERO, lado, lado, lado);
     }

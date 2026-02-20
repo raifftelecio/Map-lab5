@@ -9,71 +9,71 @@ import com.lab5map.model.Triangulo;
 
 class TrianguloTest {
 
-    @Test
-    void deveCriarTrianguloEquilatero() {
+    @Test // deve criar triangulo equilatero
+    void CriarTrianguloEquilatero() {
         Triangulo t = Triangulo.equilatero(3);
         assertNotNull(t);
     }
 
-    @Test
-    void tipoDoTrianguloEquilateroDeveSerEquilatero() {
+    @Test // tipo do triangulo equilatero deve ser equilatero
+    void tipoDoTrianguloEquilateroCorreto() {
         Triangulo t = Triangulo.equilatero(3);
         assertEquals(Triangulo.Tipo.EQUILATERO, t.getTipo());
     }
 
-    @Test
-    void deveCriarTrianguloIsosceles() {
+    @Test // deve criar triangulo isosceles
+    void CriarTrianguloIsosceles() {
         Triangulo t = Triangulo.isosceles(4, 6);
         assertNotNull(t);
     }
 
-    @Test
-    void tipoDoTrianguloIsoscelesDeveSerIsosceles() {
+    @Test // tipo do triangulo isosceles deve ser isosceles
+    void tipoDoTrianguloIsoscelesCorreto() {
         Triangulo t = Triangulo.isosceles(4, 6);
         assertEquals(Triangulo.Tipo.ISOSCELES, t.getTipo());
     }
 
-    @Test
-    void deveCriarTrianguloRetangulo() {
+    @Test // deve criar triangulo retangulo
+    void CriarTrianguloRetangulo() {
         Triangulo t = Triangulo.retangulo(3, 4);
         assertNotNull(t);
     }
 
-    @Test
-    void tipoDoTrianguloRetanguloDeveSerRetangulo() {
+    @Test // tipo Do Triangulo Retangulo Deve Ser Retangulo
+    void tipoDoTrianguloRetanguloCorreto() {
         Triangulo t = Triangulo.retangulo(3, 4);
         assertEquals(Triangulo.Tipo.RETANGULO, t.getTipo());
     }
 
-    @Test
-    void trianguloRetanguloDeveTerHipotenusaCorreta() {
+    @Test // triangulo Retangulo Deve Ter Hipotenusa Correta
+    void triRetanguloHipotenusaCorreta() {
         Triangulo t = Triangulo.retangulo(3, 4);
         assertEquals(5.0, t.getC(), 1e-9);
     }
 
-    @Test
-    void deveLancarErroQuandoLadoForZeroNoEquilatero() {
+    @Test // deve Lancar Erro Quando Lado For Zero No Equilatero
+    void ErroLadoZeroNoEquilatero() {
         assertThrows(IllegalArgumentException.class, () -> Triangulo.equilatero(0));
     }
 
-    @Test
-    void deveLancarErroQuandoCatetoForNegativoNoRetangulo() {
+    @Test // deve Lancar Erro Quando Cateto For Negativo No Retangulo
+    void ErroCatetoNegativoNoRetangulo() {
         assertThrows(IllegalArgumentException.class, () -> Triangulo.retangulo(-3, 4));
     }
 
-    @Test
-    void deveLancarErroQuandoLadosNaoFormamTriangulo() {
+    @Test // deve Lancar Erro Quando Lados Nao Formam Triangulo
+    void ErroLadosNaoFormamTriangulo() {
         assertThrows(IllegalArgumentException.class, () -> Triangulo.isosceles(1, 99));
     }
 
-    @Test
-    void deveCalcularPerimetroCorretamenteNoEquilatero() {
+    @Test // deve Calcular Perimetro Corretamente No Equilatero
+    void CalcularPerimetroCorretoNoEquilatero() {
         Triangulo t = Triangulo.equilatero(3);
         assertEquals(9.0, t.perimetro(), 1e-9);
     }
 
-    @Test
-    void deveRetornarNomeCorretoNoEquilatero() {
+    @Test // deve Retornar Nome Correto No Equilatero
+    void RetornarNomeCorretoNoEquilatero() {
         Triangulo t = Triangulo.equilatero(3);
         assertEquals("Triângulo Equilátero", t.nome());
     }

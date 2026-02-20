@@ -17,8 +17,8 @@ import com.lab5map.model.Triangulo;
 
 class FabricaFigurasTest {
 
-    @BeforeEach
-    void resetarSingletonParaNaoVazarEstadoEntreTestes() throws Exception {
+    @BeforeEach // resetar singleton para nao vazar estado entre testes
+    void resetarSingleton() throws Exception {
         FabricaFiguras f = FabricaFiguras.getInstance();
 
         // Zera os campos internos (circulo e triângulos) para cada teste começar do zero.
@@ -39,86 +39,86 @@ class FabricaFigurasTest {
         ret.set(f, null);
     }
 
-    @Test
-    void getInstanceDeveRetornarMesmaInstancia() {
+    @Test // get Instance Deve Retornar Mesma Instancia
+    void getInstanceRetornaMesmaInstancia() {
         FabricaFiguras a = FabricaFiguras.getInstance();
         FabricaFiguras b = FabricaFiguras.getInstance();
         assertSame(a, b);
     }
 
-    @Test
-    void getCirculoDeveRetornarMesmoObjetoNaSegundaChamada() {
+    @Test // get Circulo Deve Retornar Mesmo Objeto Na Segunda Chamada
+    void getCirculoRetornaMesmoObjSegChamada() {
         FabricaFiguras f = FabricaFiguras.getInstance();
         Circulo c1 = f.getCirculo(2.0);
         Circulo c2 = f.getCirculo(2.0);
         assertSame(c1, c2);
     }
 
-    @Test
-    void getCirculoDeveLancarErroSeTentarOutroRaioDepoisDeCriado() {
+    @Test // get Circulo Deve Lancar Erro Se Tentar Outro Raio Depois De Criado
+    void getCirculoErroTentarOutroRaioAposCriado() {
         FabricaFiguras f = FabricaFiguras.getInstance();
         f.getCirculo(2.0);
         assertThrows(IllegalStateException.class, () -> f.getCirculo(3.0));
     }
 
-    @Test
-    void getTrianguloEquilateroDeveRetornarObjetoCriado() {
+    @Test // get Triangulo Equilatero Deve Retornar Objeto Criado
+    void getTrianguloEquilateroRetornaObjCriado() {
         FabricaFiguras f = FabricaFiguras.getInstance();
         Triangulo t = f.getTrianguloEquilatero(3.0);
         assertNotNull(t);
     }
 
-    @Test
-    void getTrianguloEquilateroDeveLancarErroAoCriarSegundo() {
+    @Test // get Triangulo Equilatero Deve Lancar Erro Ao Criar Segundo
+    void getTrianguloEquilateroErroSegundo() {
         FabricaFiguras f = FabricaFiguras.getInstance();
         f.getTrianguloEquilatero(3.0);
         assertThrows(IllegalStateException.class, () -> f.getTrianguloEquilatero(10.0));
     }
 
-    @Test
-    void getTrianguloIsoscelesDeveRetornarObjetoCriado() {
+    @Test // get Triangulo Isosceles Deve Retornar Objeto Criado
+    void getTrianguloIsoscelesRetornaObjCriado() {
         FabricaFiguras f = FabricaFiguras.getInstance();
         Triangulo t = f.getTrianguloIsosceles(4.0, 6.0);
         assertNotNull(t);
     }
 
-    @Test
-    void getTrianguloIsoscelesDeveLancarErroAoCriarSegundo() {
+    @Test // get Triangulo Isosceles Deve Lancar Erro Ao Criar Segundo
+    void getTrianguloIsoscelesErroSegundo() {
         FabricaFiguras f = FabricaFiguras.getInstance();
         f.getTrianguloIsosceles(4.0, 6.0);
         assertThrows(IllegalStateException.class, () -> f.getTrianguloIsosceles(10.0, 10.0));
     }
 
-    @Test
-    void getTrianguloRetanguloDeveRetornarObjetoCriado() {
+    @Test // get Triangulo Retangulo Deve Retornar Objeto criado
+    void getTrianguloRetanguloRetornaObjCriado() {
         FabricaFiguras f = FabricaFiguras.getInstance();
         Triangulo t = f.getTrianguloRetangulo(3.0, 4.0);
         assertNotNull(t);
     }
-
-    @Test
-    void getTrianguloRetanguloDeveLancarErroAoCriarSegundo() {
+ 
+    @Test // get Triangulo Retangulo Deve Lancar Erro Ao Criar Segundo
+    void getTrianguloRetanguloErroCriarSegundo() {
         FabricaFiguras f = FabricaFiguras.getInstance();
         f.getTrianguloRetangulo(3.0, 4.0);
         assertThrows(IllegalStateException.class, () -> f.getTrianguloRetangulo(5.0, 12.0));
     }
 
-    @Test
-    void createQuadradoDeveCriarNovasInstanciasSempre() {
+    @Test // create Quadrado Deve criar Novas Instancias Sempre
+    void createQuadradoCriarNovasInstancias() {
         FabricaFiguras f = FabricaFiguras.getInstance();
         Quadrado q1 = f.createQuadrado(2.0);
         Quadrado q2 = f.createQuadrado(2.0);
         assertNotSame(q1, q2);
     }
 
-    @Test
-    void quantidadeTriangulosCriadosDeveSerZeroNoInicio() {
+    @Test // quantidade Triangulos Criados Deve Ser Zero No Inicio
+    void ZeroTriangulosCriadosInicio() {
         FabricaFiguras f = FabricaFiguras.getInstance();
         assertEquals(0, f.quantidadeTriangulosCriados());
     }
 
-    @Test
-    void quantidadeTriangulosCriadosDeveSerTresDepoisDeCriarTodos() {
+    @Test // quantidade Triangulos Criados Deve Ser Tres Depois De Criar Todos
+    void TresTriangulosCriados() {
         FabricaFiguras f = FabricaFiguras.getInstance();
         f.getTrianguloEquilatero(3.0);
         f.getTrianguloIsosceles(4.0, 6.0);
