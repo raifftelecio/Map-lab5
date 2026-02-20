@@ -1,72 +1,53 @@
 package com.lab5map.model;
 
-public final class Triangulo implements FiguraGeometrica {
+// Singleton aplicado por tipo de triângulo
+public class Triangulo {
 
-    public enum Tipo {
-        ISOSCELES,
-        EQUILATERO,
-        RETANGULO
-    }
+    private static Triangulo isoscelesInstance;
+    private static Triangulo equilateroInstance;
+    private static Triangulo retanguloInstance;
 
-    private final Tipo tipo;
-    private final double a;
-    private final double b;
-    private final double c;
+    private double a;
+    private double b;
+    private double c;
 
-    private Triangulo(Tipo tipo, double a, double b, double c) {
-        if (a <= 0 || b <= 0 || c <= 0) throw new IllegalArgumentException("Lados devem ser > 0");
-        if (!formaTriangulo(a, b, c)) throw new IllegalArgumentException("Lados não formam triângulo válido");
-
-        this.tipo = tipo;
+    // Construtor privado
+    private Triangulo(double a, double b, double c) {
         this.a = a;
         this.b = b;
         this.c = c;
     }
 
-    // Fábricas (criação por tipo)
+    // Singleton Isósceles
+    public static Triangulo isosceles(double a, double b, double c) {
+        if (isoscelesInstance == null) {
+            isoscelesInstance = new Triangulo(a, b, c);
+        }
+        return isoscelesInstance;
+    }
+
+    // Singleton Equilátero
     public static Triangulo equilatero(double lado) {
-        return new Triangulo(Tipo.EQUILATERO, lado, lado, lado);
+        if (equilateroInstance == null) {
+            equilateroInstance = new Triangulo(lado, lado, lado);
+        }
+        return equilateroInstance;
     }
 
-    public static Triangulo isosceles(double ladoIgual, double base) {
-        return new Triangulo(Tipo.ISOSCELES, ladoIgual, ladoIgual, base);
+    // Singleton Retângulo
+    public static Triangulo retangulo(double a, double b, double c) {
+        if (retanguloInstance == null) {
+            retanguloInstance = new Triangulo(a, b, c);
+        }
+        return retanguloInstance;
     }
 
-    public static Triangulo retangulo(double catetoA, double catetoB) {
-        double hipotenusa = Math.sqrt(catetoA * catetoA + catetoB * catetoB);
-        return new Triangulo(Tipo.RETANGULO, catetoA, catetoB, hipotenusa);
-    }
-
-    private static boolean formaTriangulo(double a, double b, double c) {
-        return a + b > c && a + c > b && b + c > a;
-    }
-
-    public Tipo getTipo() {
-        return tipo;
-    }
-
-    public double getA() { return a; }
-    public double getB() { return b; }
-    public double getC() { return c; }
-
-    @Override
-    public String nome() {
-        return switch (tipo) {
-            case ISOSCELES -> "Triângulo Isósceles";
-            case EQUILATERO -> "Triângulo Equilátero";
-            case RETANGULO -> "Triângulo Retângulo";
-        };
-    }
-
-    @Override
     public double perimetro() {
         return a + b + c;
     }
 
-    @Override
     public double area() {
-        // Fórmula de Heron (vale para qualquer triângulo válido)
-        double s = perimetro() / 2.0;
+        double s = perimetro() / 2;
         return Math.sqrt(s * (s - a) * (s - b) * (s - c));
     }
 }

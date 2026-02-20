@@ -1,44 +1,34 @@
 package com.lab5map;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import java.lang.reflect.Field;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.lab5map.model.Circulo;
 
-class CirculoTest {
+public class CirculoTest {
 
-    @Test // deve criar um circulo com raio válido
-    void CriarCirculoRaioValido() {
-        assertDoesNotThrow(() -> new Circulo(2.0));
+    @BeforeEach
+    void resetSingleton() throws Exception {
+        Field f = Circulo.class.getDeclaredField("instance");
+        f.setAccessible(true);
+        f.set(null, null);
     }
 
-    @Test // deve lancar erro quando raio for zero
-    void ErroRaioIgualZero() {
-        assertThrows(IllegalArgumentException.class, () -> new Circulo(0));
+    @Test
+    void deveRetornarMesmaInstancia() {
+        Circulo c1 = Circulo.getInstance(5);
+        Circulo c2 = Circulo.getInstance(10);
+        assertSame(c1, c2);
     }
 
-    @Test // deve lancar erro quando raio for negativo
-    void ErroRaioNegativo() {
-        assertThrows(IllegalArgumentException.class, () -> new Circulo(-1));
-    }
-
-    @Test // deve calcular area corretamente
-    void CalcularAreaCorretamente() {
-        Circulo c = new Circulo(2.0);
-        assertEquals(Math.PI * 4.0, c.area(), 1e-9);
-    }
-
-    @Test // deve calcular perimetro corretamente
-    void CalcularPerimetroCorretamente() {
-        Circulo c = new Circulo(2.0);
-        assertEquals(2 * Math.PI * 2.0, c.perimetro(), 1e-9);
-    }
-
-    @Test // deve retornar nome correto
-    void RetornarNomeCorreto() {
-        Circulo c = new Circulo(1.0);
-        assertEquals("Círculo", c.nome());
+    @Test
+    void raioNaoMudaDepoisDaPrimeiraCriacao() {
+        Circulo c1 = Circulo.getInstance(5);
+        Circulo c2 = Circulo.getInstance(10);
+        assertEquals(5, c2.getRaio(), 1e-9);
     }
 }

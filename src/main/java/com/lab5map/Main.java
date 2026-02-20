@@ -1,113 +1,86 @@
 package com.lab5map;
 
-import com.lab5map.factory.FabricaFiguras;
 import com.lab5map.model.Circulo;
 import com.lab5map.model.Quadrado;
 import com.lab5map.model.Triangulo;
 
 public class Main {
+
     public static void main(String[] args) {
 
         double perimetro;
         double area;
 
-        FabricaFiguras fabrica = FabricaFiguras.getInstance();
-
         System.out.println("DADOS PRÉ-INSERIDOS 1:\n");
 
-        // Círculo 
-        try {
-            Circulo circulo = fabrica.getCirculo(25);
+        // CÍRCULO
+        Circulo circulo = Circulo.getInstance(25);
 
-            perimetro = circulo.perimetro();
-            System.out.println("O perímetro do círculo é: " + perimetro);
+        perimetro = circulo.perimetro();
+        System.out.println("O perímetro do círculo é: " + perimetro);
 
-            area = circulo.area();
-            System.out.println("A área do círculo é: " + area);
+        area = circulo.area();
+        System.out.println("A área do círculo é: " + area);
 
-        } catch (Exception exception) {
-            System.out.println(exception.getMessage());
-        }
+        System.out.println("\n-------------------------------------------------------------\n");
 
-        System.out.println("\n----------------------------------------------------------------\n");
+        // QUADRADO
+        Quadrado quadrado = new Quadrado(7);
 
-        // Quadrado
-        try {
-            Quadrado quadrado = fabrica.createQuadrado(7);
+        perimetro = quadrado.perimetro();
+        System.out.println("O perímetro do quadrado é: " + perimetro);
 
-            perimetro = quadrado.perimetro();
-            System.out.println("O perímetro do quadrado é: " + perimetro);
+        area = quadrado.area();
+        System.out.println("A área do quadrado é: " + area);
 
-            area = quadrado.area();
-            System.out.println("A área do quadrado é: " + area);
+        System.out.println("\n-------------------------------------------------------------\n");
 
-        } catch (Exception exception) {
-            System.out.println(exception.getMessage());
-        }
+        // TRIÂNGULO EQUILÁTERO
+        Triangulo tEqui = Triangulo.equilatero(7);
 
-        System.out.println("\n----------------------------------------------------------------\n");
+        perimetro = tEqui.perimetro();
+        System.out.println("O perímetro do triângulo equilátero é: " + perimetro);
 
-        // Triângulo Equilátero 
-        try {
-            Triangulo tEqui = fabrica.getTrianguloEquilatero(7);
+        area = tEqui.area();
+        System.out.println("A área do triângulo equilátero é: " + area);
 
-            perimetro = tEqui.perimetro();
-            System.out.println("O perímetro do triângulo equilátero é: " + perimetro);
+        System.out.println("\n-------------------------------------------------------------\n");
 
-            area = tEqui.area();
-            System.out.println("A área do triângulo equilátero é: " + area);
+        // TRIÂNGULO ISÓSCELES
+        Triangulo tIso = Triangulo.isosceles(6, 6, 4);
 
-        } catch (Exception exception) {
-            System.out.println(exception.getMessage());
-        }
+        perimetro = tIso.perimetro();
+        System.out.println("O perímetro do triângulo isósceles é: " + perimetro);
 
-        System.out.println("\n----------------------------------------------------------------\n");
+        area = tIso.area();
+        System.out.println("A área do triângulo isósceles é: " + area);
 
-        // Triângulo Isósceles 
-        try {
-            Triangulo tIso = fabrica.getTrianguloIsosceles(6, 4);
+        System.out.println("\n-------------------------------------------------------------\n");
 
-            perimetro = tIso.perimetro();
-            System.out.println("O perímetro do triângulo isósceles é: " + perimetro);
+        // TRIÂNGULO RETÂNGULO
+        Triangulo tRet = Triangulo.retangulo(3, 4, 5);
 
-            area = tIso.area();
-            System.out.println("A área do triângulo isósceles é: " + area);
+        perimetro = tRet.perimetro();
+        System.out.println("O perímetro do triângulo retângulo é: " + perimetro);
 
-        } catch (Exception exception) {
-            System.out.println(exception.getMessage());
-        }
+        area = tRet.area();
+        System.out.println("A área do triângulo retângulo é: " + area);
 
-        System.out.println("\n----------------------------------------------------------------\n");
+        System.out.println("\n-------------------------------------------------------------\n");
 
-        // Triângulo Retângulo 
-        try {
-            Triangulo tRet = fabrica.getTrianguloRetangulo(3, 4);
+        // DEMONSTRAÇÃO DO SINGLETON
+        System.out.println("DEMONSTRAÇÃO DO PADRÃO:\n");
 
-            perimetro = tRet.perimetro();
-            System.out.println("O perímetro do triângulo retângulo é: " + perimetro);
+        Circulo c1 = Circulo.getInstance(25);
+        Circulo c2 = Circulo.getInstance(30);
+        System.out.println("Círculo é único? " + (c1 == c2));
 
-            area = tRet.area();
-            System.out.println("A área do triângulo retângulo é: " + area);
+        Triangulo eq1 = Triangulo.equilatero(7);
+        Triangulo eq2 = Triangulo.equilatero(10);
+        System.out.println("Equilátero é único? " + (eq1 == eq2));
 
-        } catch (Exception exception) {
-            System.out.println(exception.getMessage());
-        }
-
-        System.out.println("\n----------------------------------------------------------------\n");
-
-        // Demonstrações do comportamento do Singleton / regras da fábrica
-        System.out.println("DEMONSTRAÇÕES DO PADRÃO:\n");
-        try {
-            Circulo c1 = fabrica.getCirculo(25);
-            Circulo c2 = fabrica.getCirculo(25);
-            System.out.println("Círculo é único? " + (c1 == c2));
-
-            Quadrado q1 = fabrica.createQuadrado(2);
-            Quadrado q2 = fabrica.createQuadrado(2);
-            System.out.println("Quadrados são ilimitados? (objetos diferentes) " + (q1 != q2));
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        Quadrado q1 = new Quadrado(2);
+        Quadrado q2 = new Quadrado(2);
+        System.out.println("Quadrados são diferentes? " + (q1 != q2));
     }
 }

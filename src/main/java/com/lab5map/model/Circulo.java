@@ -1,29 +1,34 @@
 package com.lab5map.model;
 
-public final class Circulo implements FiguraGeometrica {
-    private final double raio;
+// Singleton aplicado ao círculo
+public class Circulo {
 
-    public Circulo(double raio) {
-        if (raio <= 0) throw new IllegalArgumentException("Raio deve ser > 0");
+    private static Circulo instance;
+
+    private double raio;
+
+    // Construtor privado
+    private Circulo(double raio) {
         this.raio = raio;
     }
 
-    public double getRaio() {
-        return raio;
+    // Método de acesso à instância única
+    public static Circulo getInstance(double raio) {
+        if (instance == null) {
+            instance = new Circulo(raio);
+        }
+        return instance;
     }
 
-    @Override
-    public String nome() {
-        return "Círculo";
-    }
-
-    @Override
     public double area() {
         return Math.PI * raio * raio;
     }
 
-    @Override
     public double perimetro() {
         return 2 * Math.PI * raio;
+    }
+
+    public double getRaio() {
+        return raio;
     }
 }

@@ -1,80 +1,60 @@
 package com.lab5map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import java.lang.reflect.Field;
+
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.lab5map.model.Triangulo;
 
-class TrianguloTest {
+public class TrianguloTest {
 
-    @Test // deve criar triangulo equilatero
-    void CriarTrianguloEquilatero() {
-        Triangulo t = Triangulo.equilatero(3);
-        assertNotNull(t);
+    @BeforeEach
+    void resetSingletons() throws Exception {
+        Field f1 = Triangulo.class.getDeclaredField("isoscelesInstance");
+        Field f2 = Triangulo.class.getDeclaredField("equilateroInstance");
+        Field f3 = Triangulo.class.getDeclaredField("retanguloInstance");
+
+        f1.setAccessible(true);
+        f2.setAccessible(true);
+        f3.setAccessible(true);
+
+        f1.set(null, null);
+        f2.set(null, null);
+        f3.set(null, null);
     }
 
-    @Test // tipo do triangulo equilatero deve ser equilatero
-    void tipoDoTrianguloEquilateroCorreto() {
-        Triangulo t = Triangulo.equilatero(3);
-        assertEquals(Triangulo.Tipo.EQUILATERO, t.getTipo());
+    @Test
+    void equilateroDeveSerSingleton() {
+        Triangulo t1 = Triangulo.equilatero(6);
+        Triangulo t2 = Triangulo.equilatero(10);
+        assertSame(t1, t2);
     }
 
-    @Test // deve criar triangulo isosceles
-    void CriarTrianguloIsosceles() {
-        Triangulo t = Triangulo.isosceles(4, 6);
-        assertNotNull(t);
+    @Test
+    void isoscelesDeveSerSingleton() {
+        Triangulo t1 = Triangulo.isosceles(5, 5, 6);
+        Triangulo t2 = Triangulo.isosceles(10, 10, 12);
+        assertSame(t1, t2);
     }
 
-    @Test // tipo do triangulo isosceles deve ser isosceles
-    void tipoDoTrianguloIsoscelesCorreto() {
-        Triangulo t = Triangulo.isosceles(4, 6);
-        assertEquals(Triangulo.Tipo.ISOSCELES, t.getTipo());
+    @Test
+    void retanguloDeveSerSingleton() {
+        Triangulo t1 = Triangulo.retangulo(3, 4, 5);
+        Triangulo t2 = Triangulo.retangulo(6, 8, 10);
+        assertSame(t1, t2);
     }
 
-    @Test // deve criar triangulo retangulo
-    void CriarTrianguloRetangulo() {
-        Triangulo t = Triangulo.retangulo(3, 4);
-        assertNotNull(t);
-    }
+    @Test
+    void tiposDiferentesNaoSaoOMesmoObjeto() {
+        Triangulo eq = Triangulo.equilatero(6);
+        Triangulo iso = Triangulo.isosceles(5, 5, 6);
+        Triangulo ret = Triangulo.retangulo(3, 4, 5);
 
-    @Test // tipo Do Triangulo Retangulo Deve Ser Retangulo
-    void tipoDoTrianguloRetanguloCorreto() {
-        Triangulo t = Triangulo.retangulo(3, 4);
-        assertEquals(Triangulo.Tipo.RETANGULO, t.getTipo());
-    }
-
-    @Test // triangulo Retangulo Deve Ter Hipotenusa Correta
-    void triRetanguloHipotenusaCorreta() {
-        Triangulo t = Triangulo.retangulo(3, 4);
-        assertEquals(5.0, t.getC(), 1e-9);
-    }
-
-    @Test // deve Lancar Erro Quando Lado For Zero No Equilatero
-    void ErroLadoZeroNoEquilatero() {
-        assertThrows(IllegalArgumentException.class, () -> Triangulo.equilatero(0));
-    }
-
-    @Test // deve Lancar Erro Quando Cateto For Negativo No Retangulo
-    void ErroCatetoNegativoNoRetangulo() {
-        assertThrows(IllegalArgumentException.class, () -> Triangulo.retangulo(-3, 4));
-    }
-
-    @Test // deve Lancar Erro Quando Lados Nao Formam Triangulo
-    void ErroLadosNaoFormamTriangulo() {
-        assertThrows(IllegalArgumentException.class, () -> Triangulo.isosceles(1, 99));
-    }
-
-    @Test // deve Calcular Perimetro Corretamente No Equilatero
-    void CalcularPerimetroCorretoNoEquilatero() {
-        Triangulo t = Triangulo.equilatero(3);
-        assertEquals(9.0, t.perimetro(), 1e-9);
-    }
-
-    @Test // deve Retornar Nome Correto No Equilatero
-    void RetornarNomeCorretoNoEquilatero() {
-        Triangulo t = Triangulo.equilatero(3);
-        assertEquals("Triângulo Equilátero", t.nome());
+        assertNotSame(eq, iso);
+        assertNotSame(eq, ret);
+        assertNotSame(iso, ret);
     }
 }
