@@ -1,19 +1,26 @@
 package com.lab5map.model;
+public final class Quadrado implements FiguraGeometrica {
 
-// Quadrado não é Singleton (instâncias ilimitadas)
-public class Quadrado {
-
-    private double lado;
+    private final double lado;
 
     public Quadrado(double lado) {
+        if (lado <= 0) {
+            throw new IllegalArgumentException("Lado deve ser > 0.");
+        }
         this.lado = lado;
     }
 
-    public double area() {
+    public double getLado() {
+        return lado;
+    }
+
+    @Override
+    public double calculaArea() {
         return lado * lado;
     }
 
-    public double perimetro() {
+    @Override
+    public double calculaPerimetro() {
         return 4 * lado;
     }
 }

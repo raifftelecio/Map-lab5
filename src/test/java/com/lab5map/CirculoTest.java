@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,16 +20,32 @@ public class CirculoTest {
     }
 
     @Test
-    void deveRetornarMesmaInstancia() {
-        Circulo c1 = Circulo.getInstance(5);
+    void deveCalcularAreaCorretamente() {
+        Circulo c = Circulo.getInstance(10);
+        assertEquals(Math.PI * 100, c.calculaArea(), 1e-9);
+    }
+
+    @Test
+    void deveCalcularPerimetroCorretamente() {
+        Circulo c = Circulo.getInstance(10);
+        assertEquals(2 * Math.PI * 10, c.calculaPerimetro(), 1e-9);
+    }
+
+    @Test
+    void deveRetornarMesmaInstanciaParaMesmoRaio() {
+        Circulo c1 = Circulo.getInstance(10);
         Circulo c2 = Circulo.getInstance(10);
         assertSame(c1, c2);
     }
 
     @Test
-    void raioNaoMudaDepoisDaPrimeiraCriacao() {
-        Circulo c1 = Circulo.getInstance(5);
-        Circulo c2 = Circulo.getInstance(10);
-        assertEquals(5, c2.getRaio(), 1e-9);
+    void deveLancarErroAoTentarCriarComRaioDiferente() {
+        Circulo.getInstance(10);
+        assertThrows(IllegalStateException.class, () -> Circulo.getInstance(12));
+    }
+
+    @Test
+    void deveLancarErroSeRaioInvalido() {
+        assertThrows(IllegalArgumentException.class, () -> Circulo.getInstance(0));
     }
 }
